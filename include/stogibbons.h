@@ -326,16 +326,13 @@ uint64 StoSumGibbonsTirthapura(istream &in, vector<string> &groupby, int &N,
   return for_each(estimates.begin(), estimates.end(), adder()).sum;
 }
 
-/**
- * possibly garbage.
- */
+
 template <class T>
 uint64
 StoWeightedSumGibbonsTirthapura(istream &in, vector<string> &groupby, int &N,
                                 int L = 19, int storagelimit = 512,
                                 int nbofbitmap = 32, char delimiter = ',',
                                 int rng = rand_rng) {
-  // int nbofbitmap = 32;
   vector<map<vector<T>, uint64>> buffer(nbofbitmap);
 
   const uint n = groupby.size(); // number of dimensions
@@ -355,7 +352,6 @@ StoWeightedSumGibbonsTirthapura(istream &in, vector<string> &groupby, int &N,
                                   // correspondant aux attributs du group by
 
   N = 0;
-  // assert(buffer.size() == 0);  // if not, we needed to clear...
 
   // Récupérer les indices des colones des dimensions
   getline(in, line); // La première ligne du fichier de données contient les
@@ -404,7 +400,6 @@ StoWeightedSumGibbonsTirthapura(istream &in, vector<string> &groupby, int &N,
       typename map<vector<T>, uint64>::iterator it =
           buffer[alpha].find(attribute_value);
       if (it == buffer[alpha].end()) {
-        // buffer[attribute_value] = (1LL << 32) | trailingzeros(oldhash,L);
         buffer[alpha][attribute_value] =
             trailingzeros(oldhash, L); //(1LL << 32) |
         while ((buffer[alpha].size() > (uint)storagelimit / nbofbitmap)) {
@@ -414,7 +409,6 @@ StoWeightedSumGibbonsTirthapura(istream &in, vector<string> &groupby, int &N,
           for (typename map<vector<T>, uint64>::iterator j =
                    buffer[alpha].begin();
                j != buffer[alpha].end();)
-            // if( (j->second & 0xffffffff)  < t) buffer.erase(j++);
             if ((j->second) < t[alpha])
               buffer[alpha].erase(j++); // & 0xffffffff
             else
